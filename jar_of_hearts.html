@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jar of Hearts</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #FAF7F2;
+            background-image: 
+                radial-gradient(#F0E6D8 1px, transparent 1px),
+                radial-gradient(#F7ECE1 1px, #FAF7F2 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            color: #5C4B51;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .font-serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-handwriting {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .font-casual-notes {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Pinterest Soft Light Glassmorphism Cards */
+        .pinterest-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 223, 229, 0.6);
+            box-shadow: 0 10px 30px -5px rgba(220, 180, 190, 0.2), 0 4px 12px rgba(0,0,0,0.02);
+            border-radius: 28px;
+        }
+
+        /* Soft Jar Gradient & Glass Lighting */
+        .glass-jar {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 240, 243, 0.35) 50%, rgba(255, 255, 255, 0.6) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 
+                0 20px 40px rgba(225, 190, 195, 0.25),
+                inset 0 0 20px rgba(255, 255, 255, 0.8),
+                inset -8px -8px 25px rgba(255, 215, 225, 0.3);
+            border-radius: 40px 40px 70px 70px;
+        }
+
+        .jar-lid {
+            background: linear-gradient(180deg, #F3E5D8 0%, #E8D3C0 100%);
+            box-shadow: 0 4px 12px rgba(180, 150, 140, 0.2), inset 0 2px 2px rgba(255,255,255,0.8);
+            border: 1px solid #DFCCB7;
+        }
+
+        /* Gentle Floating Animations for Uncrowded Hearts */
+        .floating-heart {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+            animation: floatGentle 5s infinite ease-in-out alternate;
+            user-select: none;
+            filter: drop-shadow(0 6px 12px rgba(244, 162, 185, 0.35));
+        }
+
+        .floating-heart:hover {
+            transform: scale(1.28) translateY(-4px) !important;
+            filter: drop-shadow(0 10px 20px rgba(235, 130, 160, 0.5));
+            z-index: 30;
+        }
+
+        @keyframes floatGentle {
+            0% { transform: translateY(0px) rotate(-3deg); }
+            50% { transform: translateY(-8px) rotate(4deg); }
+            100% { transform: translateY(-16px) rotate(-2deg); }
+        }
+
+        /* Ambient Background Lighting Blobs */
+        .ambient-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* Envelope Styling */
+        .envelope-container {
+            background: linear-gradient(145deg, #FFF9F2 0%, #FFF2F5 100%);
+            border: 1px solid #F5E1E6;
+            box-shadow: 0 12px 28px rgba(230, 190, 200, 0.25);
+            transition: all 0.35s ease;
+        }
+
+        .envelope-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 36px rgba(220, 170, 185, 0.35);
+        }
+
+        .envelope-top-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 55%;
+            background: linear-gradient(180deg, #FCE8EC 0%, #F8D8E0 100%);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            border-bottom: 1px solid #EBC6D0;
+        }
+
+        .soft-wax-seal {
+            background: linear-gradient(135deg, #F48FB1 0%, #EC407A 100%);
+            box-shadow: 0 4px 12px rgba(236, 64, 122, 0.3), inset 0 2px 4px rgba(255,255,255,0.4);
+        }
+
+        /* Full-Screen Letter Aesthetics */
+        .letter-paper {
+            background: #FFFDF9;
+            background-image: linear-gradient(#F5EDE2 1px, transparent 1px);
+            background-size: 100% 32px;
+            box-shadow: 0 20px 50px rgba(180, 150, 160, 0.15);
+            border: 1px solid #F2E3D5;
+        }
+
+        /* Spinning Record Animation */
+        @keyframes spinRecord {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .spinning-record {
+            animation: spinRecord 10s linear infinite;
+        }
+
+        .paused-record {
+            animation-play-state: paused;
+        }
+
+        /* Sunflower Glow Effects */
+        @keyframes softPulseGlow {
+            0%, 100% { filter: drop-shadow(0 0 12px rgba(253, 224, 71, 0.5)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 24px rgba(250, 204, 21, 0.8)); transform: scale(1.03); }
+        }
+
+        .sunflower-glow {
+            animation: softPulseGlow 4s ease-in-out infinite;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #F3C6D3;
+            border-radius: 99px;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col justify-between items-center p-4 sm:p-6 md:p-8">
+
+    <div class="ambient-blob w-96 h-96 bg-rose-200/50 top-0 left-1/4 -translate-x-1/2"></div>
+    <div class="ambient-blob w-80 h-80 bg-amber-100/60 top-1/3 right-10"></div>
+    <div class="ambient-blob w-96 h-96 bg-purple-100/50 bottom-10 left-10"></div>
+
+    <!-- MAIN HEADER -->
+    <header class="relative z-10 text-center mt-2 mb-2 sm:mb-4">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-serif-title font-bold text-slate-800 tracking-tight">
+            Jar of Hearts
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-500 font-normal mt-1.5 max-w-sm mx-auto">
+            Tap on any floating heart in the jar to reveal a message.
+        </p>
+    </header>
+
+    <main class="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-xl my-auto">
+        <!-- The Glass Jar Container -->
+        <div class="relative w-[280px] h-[390px] sm:w-[330px] sm:h-[450px] flex flex-col items-center">
+            
+            <!-- Jar Lid -->
+            <div class="jar-lid w-36 sm:w-44 h-7 sm:h-9 rounded-t-xl z-20 flex items-center justify-center relative">
+                <div class="w-10/12 h-1 bg-white/60 rounded-full"></div>
+            </div>
+            
+            <!-- Jar Neck & Ribbon -->
+            <div class="w-40 sm:w-48 h-6 sm:h-7 bg-white/40 border-x-2 border-white/80 backdrop-blur-md z-10 -mt-0.5 flex items-center justify-center">
+                <div class="w-full h-2.5 bg-rose-300/80 shadow-xs relative flex justify-center items-center">
+                    <div class="absolute -bottom-2.5 w-5 h-5 rounded-full bg-rose-400 shadow-sm flex items-center justify-center text-[9px] text-white">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Glass Jar Body -->
+            <div id="jar-body" class="glass-jar relative w-full h-full -mt-0.5 overflow-hidden p-6">
+                <!-- Highlights -->
+                <div class="absolute top-5 left-4 w-3.5 h-3/4 bg-gradient-to-b from-white/90 via-white/30 to-transparent rounded-full pointer-events-none"></div>
+                <div class="absolute top-6 right-5 w-2 h-1/2 bg-gradient-to-b from-white/60 to-transparent rounded-full pointer-events-none"></div>
+                <div class="absolute bottom-4 left-6 right-6 h-5 bg-white/30 rounded-full blur-sm pointer-events-none"></div>
+
+                <!-- 16 Hearts Container -->
+                <div id="hearts-container" class="relative w-full h-full"></div>
+            </div>
+        </div>
+
+        <p class="text-xs text-rose-400/80 mt-4 font-medium flex items-center gap-1.5">
+            <i class="fa-solid fa-heart-pulse text-[10px]"></i>
+            <span>Tap a heart to open</span>
+        </p>
+    </main>
+
+    <div class="fixed bottom-6 left-6 z-30">
+        <button id="open-drawer-btn" class="group relative px-5 py-3 rounded-full bg-white/90 hover:bg-white text-slate-700 font-medium text-xs sm:text-sm shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2.5 border border-pink-200/80 backdrop-blur-md hover:scale-105 active:scale-95">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-300 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-pink-400"></span>
+            </span>
+            <span class="tracking-wide text-slate-700 font-semibold">There's more here</span>
+            <i class="fa-solid fa-sparkles text-amber-400 group-hover:rotate-12 transition-transform"></i>
+        </button>
+    </div>
+
+    <div id="drawer-overlay" class="fixed inset-0 bg-slate-900/20 backdrop-blur-xs opacity-0 pointer-events-none transition-opacity duration-300 z-40"></div>
+
+    <aside id="side-drawer" class="fixed top-0 left-0 bottom-0 w-full sm:w-[410px] max-w-full bg-[#FAF5EF]/95 border-r border-rose-200/60 backdrop-blur-2xl shadow-2xl z-50 transform -translate-x-full transition-transform duration-500 ease-out flex flex-col justify-between overflow-hidden">
+        
+        <!-- Drawer Header -->
+        <div class="p-5 border-b border-rose-100 flex items-center justify-between bg-white/40">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-flower-tulip text-rose-400"></i>
+            </div>
+            <button id="close-drawer-btn" class="w-8 h-8 rounded-full bg-white hover:bg-rose-50 text-slate-500 flex items-center justify-center transition-colors border border-rose-100 shadow-xs">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+        </div>
+
+        <!-- Scrollable Showcase Sections -->
+        <div class="flex-1 overflow-y-auto p-5 space-y-6">
+            
+            <!-- SECTION 1: AESTHETIC ENVELOPE -->
+            <section>
+                <div id="open-full-letter-btn" class="envelope-container rounded-3xl p-6 relative cursor-pointer overflow-hidden group">
+                    <div class="envelope-top-flap"></div>
+                    
+                    <div class="py-8 flex flex-col items-center justify-center text-center relative z-10">
+                        <div class="w-14 h-14 rounded-full soft-wax-seal flex items-center justify-center text-white shadow-md mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-envelope text-xl"></i>
+                        </div>
+                        <h3 class="font-serif-title text-2xl text-slate-800 font-bold">LSM</h3>
+                        <h3 class="text-xs text-rose-900/80 font-medium mt-1">long sad message :p</h3>
+                        <div class="mt-4 px-4 py-1.5 rounded-full bg-white/80 border border-rose-200 text-rose-700 text-xs font-semibold shadow-xs flex items-center gap-2 group-hover:bg-rose-50 transition-colors">
+                            <i class="fa-solid fa-expand text-[10px]"></i>
+                            <span>Read Full Letter</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: MUSIC PLAYER CARD (NIKI - Tsunami) -->
+            <section>
+                <div class="pinterest-card p-5 relative overflow-hidden">
+                    <div class="flex items-center gap-4">
+                        <!-- Vinyl with NIKI - Tsunami Cover -->
+                        <div class="relative w-20 h-20 flex-shrink-0">
+                            <div id="vinyl-record" class="w-20 h-20 rounded-full bg-slate-900 border-2 border-slate-700 shadow-md flex items-center justify-center spinning-record paused-record relative overflow-hidden">
+                                <img src="https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02af28c3161d272af6c015131c" alt="NIKI - Buzz album cover" class="w-10 h-10 rounded-full object-cover border border-white/80 shadow-inner z-10">
+                                <div class="absolute inset-0 rounded-full border-4 border-slate-800/40 pointer-events-none z-20"></div>
+                                <div class="absolute inset-2 rounded-full border border-white/10 pointer-events-none z-20"></div>
+                                <div class="absolute inset-4 rounded-full border border-white/10 pointer-events-none z-20"></div>
+                            </div>
+                        </div>
+
+                        <!-- Track Details -->
+                        <div class="flex-1 min-w-0">
+                            <span class="text-[10px] uppercase font-bold tracking-wider text-rose-400">Now Playing</span>
+                            <h4 class="font-serif-title font-semibold text-slate-800 text-base truncate">Tsunami</h4>
+                            <p class="text-xs text-slate-500 truncate mt-0.5">NIKI</p>
+
+                            <!-- Audio Visualizer Waves -->
+                            <div class="flex items-end gap-1 h-3.5 mt-2" id="visualizer-bars">
+                                <div class="w-1 bg-rose-300 rounded-full h-1 transition-all duration-200"></div>
+                                <div class="w-1 bg-rose-300 rounded-full h-1 transition-all duration-200"></div>
+                                <div class="w-1 bg-rose-300 rounded-full h-1 transition-all duration-200"></div>
+                                <div class="w-1 bg-rose-300 rounded-full h-1 transition-all duration-200"></div>
+                                <div class="w-1 bg-rose-300 rounded-full h-1 transition-all duration-200"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Spotify Embed: NIKI - Tsunami -->
+                    <div class="mt-4 pt-3 border-t border-rose-100">
+                        <iframe
+                            title="Spotify Embed: NIKI - Tsunami"
+                            style="border-radius:12px"
+                            src="https://open.spotify.com/embed/track/3g73KFee4dbxDq5vTmX92S?utm_source=generator"
+                            width="100%"
+                            height="152"
+                            frameborder="0"
+                            allowfullscreen=""
+                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: GLOWING YELLOW SUNFLOWER -->
+            <section>
+                <div class="pinterest-card p-6 flex flex-col items-center text-center relative overflow-hidden bg-gradient-to-b from-white/90 to-amber-50/40">
+                    <div class="relative w-28 h-28 my-1 cursor-pointer group" id="flower-interactive">
+                        <svg viewBox="0 0 100 100" class="w-full h-full sunflower-glow transition-transform duration-500 group-hover:scale-105">
+                            <path d="M50 65 Q48 80 50 95" stroke="#86EFAC" stroke-width="3" fill="none" stroke-linecap="round"/>
+                            <path d="M50 80 Q35 75 40 70 Q48 72 50 80" fill="#4ADE80" />
+                            <path d="M50 85 Q65 80 60 75 Q52 77 50 85" fill="#4ADE80" />
+                            
+                            <!-- Petals -->
+                            <g fill="#FACC15">
+                                <ellipse cx="50" cy="30" rx="6" ry="16" />
+                                <ellipse cx="50" cy="70" rx="6" ry="16" />
+                                <ellipse cx="30" cy="50" rx="16" ry="6" />
+                                <ellipse cx="70" cy="50" rx="16" ry="6" />
+                                <ellipse cx="36" cy="36" rx="6" ry="16" transform="rotate(-45 36 36)" />
+                                <ellipse cx="64" cy="64" rx="6" ry="16" transform="rotate(-45 64 64)" />
+                                <ellipse cx="64" cy="36" rx="6" ry="16" transform="rotate(45 64 36)" />
+                                <ellipse cx="36" cy="64" rx="6" ry="16" transform="rotate(45 36 64)" />
+                            </g>
+
+                            <g fill="#FDE047" transform="rotate(22.5 50 50)">
+                                <ellipse cx="50" cy="30" rx="5" ry="14" />
+                                <ellipse cx="50" cy="70" rx="5" ry="14" />
+                                <ellipse cx="30" cy="50" rx="14" ry="5" />
+                                <ellipse cx="70" cy="50" rx="14" ry="5" />
+                                <ellipse cx="36" cy="36" rx="5" ry="14" transform="rotate(-45 36 36)" />
+                                <ellipse cx="64" cy="64" rx="5" ry="14" transform="rotate(-45 64 64)" />
+                                <ellipse cx="64" cy="36" rx="5" ry="14" transform="rotate(45 64 36)" />
+                                <ellipse cx="36" cy="64" rx="5" ry="14" transform="rotate(45 36 64)" />
+                            </g>
+
+                            <!-- Flower Center -->
+                            <circle cx="50" cy="50" r="12" fill="#78350F" />
+                            <circle cx="50" cy="50" r="10" fill="#451A03" stroke="#D97706" stroke-dasharray="2,2" stroke-width="1" />
+                        </svg>
+                    </div>
+
+                    <p class="font-serif-title italic text-amber-900 text-sm mt-2">
+                        "I could have given you a real flower, but I wanted to give you one that would never wilt."
+                    </p>
+
+                    <button id="water-flower-btn" class="mt-4 px-4 py-1.5 text-xs bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-full border border-amber-200 font-medium transition-all flex items-center gap-1.5 shadow-xs">
+                        <i class="fa-solid fa-sparkles text-amber-500"></i>
+                        <span>Send Warmth</span>
+                    </button>
+                </div>
+            </section>
+
+        </div>
+
+        <div class="p-4 border-t border-rose-100 bg-white/50 text-center text-xs text-slate-400">
+            made with love
+        </div>
+    </aside>
+
+    <div id="full-letter-overlay" class="fixed inset-0 z-50 bg-slate-900/30 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-500 overflow-y-auto flex items-center justify-center p-3 sm:p-6 md:p-10">
+        
+        <!-- Paper Container -->
+        <div id="letter-view-container" class="letter-paper rounded-3xl w-full max-w-2xl min-h-[80vh] my-auto p-6 sm:p-10 md:p-12 text-slate-700 relative shadow-2xl transform scale-95 transition-transform duration-500">
+            
+            <!-- Navigation Bar -->
+            <div class="flex items-center justify-between pb-4 mb-6 border-b border-rose-100">
+                <button id="close-letter-btn" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white hover:bg-rose-50 text-rose-700 font-semibold text-xs transition-colors border border-rose-200 shadow-xs">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Jar</span>
+                </button>
+
+                <div class="flex items-center gap-2">
+                    <button id="copy-letter-btn" class="w-8 h-8 rounded-full bg-white hover:bg-rose-50 text-slate-600 flex items-center justify-center transition-colors border border-rose-100 shadow-xs text-xs" title="Copy Message">
+                        <i class="fa-solid fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Letter Title Header -->
+            <div class="text-center mb-8">
+                <div class="w-12 h-12 rounded-full soft-wax-seal flex items-center justify-center text-white shadow-sm mx-auto mb-3">
+                    <i class="fa-solid fa-heart text-base"></i>
+                </div>
+                <h2 id="full-letter-title" class="font-serif-title text-3xl sm:text-4xl font-bold text-slate-800">
+                    LSM
+                </h2>
+                <p id="full-letter-date" class="font-casual-notes text-2xl text-rose-400 mt-1 italic">
+                    long sad message :p
+                </p>
+            </div>
+
+            <!-- Letter Text Body (In Soft Lowercase) -->
+            <div id="full-letter-body" class="space-y-6 font-casual-notes text-2xl sm:text-3xl leading-relaxed text-slate-700 px-2">
+                <p>
+                    the first time i saw u wasn't a rollercoaster ride of emotions. it was actually just a subtle realization na "hala, ang pogi naman nito." one look, a second look, a third... until i lost count of how many times my eyes kept finding you. there’s just something about your features that makes anyone look twice e, yes pogi ka given na yon, pero alam mo yon, it's because of a warmth that's hard to put into words. i can’t even begin to explain how truly angelic u looked the first time u smiled and talked to me. idk maybe dala lang ba ng pagod ko, pero wala ang ganda ganda ng ngiti mo. and honestly, i didn't expect that a random moment on a tiring day would stay with me this long. it’s funny because i usually don't pay much attention to people right away, but with you, my eyes just kept drifting back without me even realizing it. and it's so weird to feel this way because i'm usually the type to keep to myself, but you made it so easy to break that rule. u made some of it crumble easily. no phones at 9, sleep at 10, man hater. like totoong sayo ang exception ko, sa iba ayoko. ewan ko ba, nakakatawa lang kasi i was so set on keeping my walls up, pero ikaw, isang ngiti mo lang, isang chat, isang asar, tumba lahat ng bakod ko. and the crazy part is, i don't even mind.
+                </p>
+                <p>
+                    u made me unlearn so many rules i strictly set for myself just to keep people out. i used to pride myself on being detached, on never being the girl who waits on her phone or gets affected by someone's absence. pero ikaw, you made all my non-negotiables feel so small and insignificant. ikaw lang nakagawa nun. and it was scary, but it was also the sweetest, softest kind of feeling, to finally let someone in, even just for a moment, and realize na may taong katulad mo na sobrang dali lang palang magustuhan.
+                </p>
+                <p>
+                    and what breaks me the most is how natural it felt with u. i didn't have to force a conversation, i didn't have to act like someone i'm not, and i didn't have to second-guess if i was being too much or too little. like i just existed effortlessly around someone. u have this comforting presence na kahit simpleng pang-aasar mo lang or random update sa araw mo, it was enough to make my chest feel a little warmer. u showed me how nice it felt to actually be noticed in the smallest ways. those little things u do that makes me seen. walang palya sa pag re-reply sa lahat ng msg ko, kukulitin ako kapag hindi nakapag reply agad, sasabayan ako matulog, makikipaglaro sakin kahit di naman ako marunong.
+                </p>
+                <p>
+                    that’s why it’s so hard for me to pull away now, kasi naramdaman ko kung gaano kasarap sanayin ang sarili ko sa’yo. u made me feel alive in a way i haven't felt in a very long time. u made me smile at my phone like a total idiot. i gave u the power to mess up my routines, my sleep schedule, and my entire mindset because, for a second, i genuinely believed na baka pwedeng maging ikaw. u made every boundary i built look so silly, because with just a few words, u made me feel like maybe, just maybe, letting someone in wasn't a mistake after all.
+                </p>
+                <p>
+                    so don't ever let anyone make you feel like you aren't enough, or that you aren't worth the trouble. because you are. u were worth every rule i bent, every boundary i lowered, and every secret smile i kept to myself. u deserve someone who looks at you and sees everything you are without feeling terrified of the future. someone who can love u openly, fully, and without any hesitation. u deserve a love that gives you complete certainty.
+                </p>
+                <p>
+                    i guess that's why this hurts so much, but it's also why i know i have to do this. because you deserve a love that can stay, and right now, i have to be the one to leave before we both get hurt even more.
+                </p>
+                <p>
+                    pero there is so much of you that i honestly don’t want to let go of, and it scares me how much space you’ve taken up in my life in such a short time. and i’m starting to get way too used to you. sa presence mo, sa random messages mo, and all those subtle, little things you do without even realizing it. i’ve caught myself waiting for your name to pop up on my phone, looking forward to talking to you at the end of the day, and feeling this sudden shift in my mood whenever you're around. and that frightens me, kase i’m starting to build a routine around someone i can't hold onto.
+                </p>
+                <p>
+                    i’m terrified that one day, i’ll wake up fully expecting you to always be there. kaya habang kaya ko pa, let’s stop this before i start wanting and looking for something you never promised me. ayokong masanay sa’yo. i’d rather take a painful step back right now than stay until leaving you becomes completely impossible. kasi i know myself enough to know how i love, once i fall harder than this, i won’t know how to pull myself back or let go.
+                </p>
+                <p>
+                    and deep down, we both know the reality, even if we tried to fight for this, it just won’t work. there are boundaries between us that no amount of affection can bridge, and some things simply cannot be forced.
+                </p>
+                <p>
+                    if you’re wondering why i got so invested in you in the first place, it’s because my past wasn’t like this. i came from an 'almost' where the person was never vocal with me, and beyond that, you're funny, lighthearted, and easy to talk to, ang dali dali mo pakisamahan plus points na lang talaga na pogi ka, mukhang anghel pa. i’ve always been weak for funny guys, and your humor cracked open a door i thought i kept locked. you made me feel seen and heard in ways i missed.
+                </p>
+                <p>
+                    but as much as i like you, i know why i can’t let myself fall any deeper. my mindset in love isn't casual, i date with the intention of marriage. i look at love as a lifelong commitment, and my faith and religion mean everything to me, sayo rin naman diba. i can't compromise the foundation of who i am for a feeling that has no clear direction. kaya it's very rare for me to like someone, my last resort is adding them as a friend on fb, hanggang don lang. kasi i can like u just as much but i can't offer u anything. i can't offer u a temporary setup, i can't offer u my hands to hold, i have so many restrictions. as much as my heart wants to open up to u, i know where to stop. and it breaks me a little to admit that, kasi ikaw 'yung exception sa napakarami kong rules.
+                </p>
+                <p>
+                    and when i love, i get crazy. i love intensely, completely, and deeply. right now, i’ve only shown you the best versions and parts of me. but im chaotic and complicated, i easily leave. you can't handle me.
+                </p>
+                <p>
+                    but thank you for making my college life more bearable, alam kong paulit ulit na pero i will keep on telling u na sa saglit na panahon, it felt like being a college student was not always about the lows. i'll never forget u.
+                </p>
+                <p>
+                    and even with everything i just said, i want u to know that walking away doesn't mean u weren't worth it. because u really were. u were worth every single laugh, every random text, and every late-night conversation we shared. u were worth the risk i almost took, and u are worth so much more than just a temporary spot in someone's life or a situation that can't go anywhere.
+                </p>
+                <p>
+                    u deserve a love that is completely sure of u, without any hesitation, without fear, without restrictions, and without having to break down walls just to reach each other. u deserve someone who can love u openly and give u the certainty u truly deserve, without having to choose between you and their own values or peace of mind. you're so easy to care for, and i genuinely hope u find a love that meets u right where u are, without any of these barriers in the way.
+                </p>
+                <p>
+                    and please, give yourself some grace. you are always so, so hard on yourself, and it breaks my heart seeing you carry all that weight like you have to prove something to the world. stop doubting your worth or feeling like you're not doing enough, because u are, so much more than you give yourself credit for. learn to be gentler with your own heart, hmm? take a deep breath and go easy on yourself. u deserve the same kindness and understanding that u so effortlessly give to everyone else. please take care of yourself :))
+                </p>
+            </div>
+
+            <!-- Closing Signature -->
+            <div class="mt-10 pt-6 border-t border-rose-100 flex flex-col items-end text-right">
+                <span class="font-serif-title italic text-sm text-slate-500">Sincerely,</span>
+                <span class="font-handwriting text-3xl font-bold text-rose-500 mt-1">With all my love</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="heart-modal" class="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="pinterest-card p-6 sm:p-8 w-full max-w-sm text-center relative transform scale-90 transition-transform duration-300" id="modal-card">
+            
+            <button id="close-modal-btn" class="absolute top-4 right-4 w-7 h-7 rounded-full bg-rose-50 text-slate-400 hover:text-slate-600 flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark text-xs"></i>
+            </button>
+
+            <div class="w-14 h-14 rounded-full bg-rose-100 flex items-center justify-center mx-auto mb-3 text-2xl">
+                <i id="modal-heart-icon" class="fa-solid fa-heart text-rose-400"></i>
+            </div>
+
+            <p id="modal-body" class="font-casual-notes text-2xl sm:text-3xl text-slate-700 leading-snug my-4 px-2">
+                "Message text..."
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const custom16Hearts = [
+            { id: 1, color: '#F472B6', size: 30, text: "you are appreciated, and i appreciate you more than you know" },
+            { id: 2, color: '#FB7185', size: 32, text: "you’re someone i’ll always be grateful to have met" },
+            { id: 3, color: '#FBBF24', size: 28, text: "you deserve all the gentle things in life" },
+            { id: 4, color: '#C084FC', size: 34, text: "i hope the next time you cry, it is because something finally feels lighter" },
+            { id: 5, color: '#F43F5E', size: 28, text: "i hope life is always kind to you" },
+            { id: 6, color: '#38BDF8', size: 32, text: "i hope life gives you more reasons to smile than reasons to worry" },
+            { id: 7, color: '#F472B6', size: 30, text: "i’m grateful for every moment that gave me the chance to know you" },
+            { id: 8, color: '#F87171', size: 28, text: "i hope you’re gentle with yourself, too" },
+            { id: 9, color: '#FB923C', size: 34, text: "please, if you have forgotten, if you do not feel good enough right now, remember that you are worthy, and deserving, of everything you want in life" },
+            { id: 10, color: '#A78BFA', size: 30, text: "i hope you remember that being tired does not mean you are failing, u can rest, u can cry" },
+            { id: 11, color: '#F472B6', size: 32, text: "even on the days you feel like you have nothing to offer, you are still someone worth staying for" },
+            { id: 12, color: '#38BDF8', size: 30, text: "i hope you realize that some of the things you call flaws are simply parts of you that needed understanding" },
+            { id: 13, color: '#FB7185', size: 28, text: "you were never too much" },
+            { id: 14, color: '#FBBF24', size: 32, text: "you are not difficult to love just because you have difficult days" },
+            { id: 15, color: '#C084FC', size: 28, text: "i hope you make it to that day" },
+            { id: 16, color: '#F43F5E', size: 34, text: "there will never be another you. not exactly. not ever." }
+        ];
+
+        // Safe DOM Element Bindings
+        const heartsContainer = document.getElementById('hearts-container');
+        const heartModal = document.getElementById('heart-modal');
+        const modalCard = document.getElementById('modal-card');
+        const modalBody = document.getElementById('modal-body');
+        const modalHeartIcon = document.getElementById('modal-heart-icon');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        const openDrawerBtn = document.getElementById('open-drawer-btn');
+        const closeDrawerBtn = document.getElementById('close-drawer-btn');
+        const sideDrawer = document.getElementById('side-drawer');
+        const drawerOverlay = document.getElementById('drawer-overlay');
+
+        const openFullLetterBtn = document.getElementById('open-full-letter-btn');
+        const fullLetterOverlay = document.getElementById('full-letter-overlay');
+        const letterViewContainer = document.getElementById('letter-view-container');
+        const closeLetterBtn = document.getElementById('close-letter-btn');
+        const copyLetterBtn = document.getElementById('copy-letter-btn');
+
+        /* Render 16 Uncrowded Floating Hearts Inside Glass Jar */
+        function renderUncrowdedHearts() {
+            if(!heartsContainer) return;
+            heartsContainer.innerHTML = '';
+
+            const jarWidth = heartsContainer.clientWidth || 250;
+            const jarHeight = heartsContainer.clientHeight || 350;
+
+            // Grid positions to keep hearts nicely spaced
+            const positions = [
+                { x: 18, y: 15 }, { x: 45, y: 12 }, { x: 72, y: 18 },
+                { x: 28, y: 32 }, { x: 58, y: 30 }, { x: 80, y: 35 },
+                { x: 12, y: 48 }, { x: 42, y: 46 }, { x: 68, y: 52 },
+                { x: 25, y: 64 }, { x: 54, y: 62 }, { x: 78, y: 68 },
+                { x: 15, y: 80 }, { x: 38, y: 78 }, { x: 62, y: 82 }, { x: 82, y: 85 }
+            ];
+
+            custom16Hearts.forEach((heart, idx) => {
+                const heartEl = document.createElement('div');
+                heartEl.className = 'floating-heart flex items-center justify-center';
+                
+                const pos = positions[idx % positions.length];
+                const leftPx = (pos.x / 100) * (jarWidth - 40);
+                const topPx = (pos.y / 100) * (jarHeight - 50);
+
+                heartEl.style.left = `${leftPx}px`;
+                heartEl.style.top = `${topPx}px`;
+                heartEl.style.animationDelay = `${(idx * 0.35) % 3}s`;
+                heartEl.style.fontSize = `${heart.size}px`;
+                heartEl.style.color = heart.color;
+
+                heartEl.innerHTML = `<i class="fa-solid fa-heart"></i>`;
+                heartEl.addEventListener('click', () => openHeartModal(heart));
+
+                heartsContainer.appendChild(heartEl);
+            });
+        }
+
+        function openHeartModal(heart) {
+            if(!modalBody || !heartModal) return;
+            modalBody.textContent = `"${heart.text}"`;
+            if(modalHeartIcon) modalHeartIcon.style.color = heart.color;
+            heartModal.classList.remove('opacity-0', 'pointer-events-none');
+            if(modalCard) {
+                modalCard.classList.remove('scale-90');
+                modalCard.classList.add('scale-100');
+            }
+        }
+
+        function closeHeartModal() {
+            if(!heartModal) return;
+            heartModal.classList.add('opacity-0', 'pointer-events-none');
+            if(modalCard) {
+                modalCard.classList.remove('scale-100');
+                modalCard.classList.add('scale-90');
+            }
+        }
+
+        function openDrawer() {
+            if(sideDrawer) sideDrawer.classList.remove('-translate-x-full');
+            if(drawerOverlay) drawerOverlay.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeDrawer() {
+            if(sideDrawer) sideDrawer.classList.add('-translate-x-full');
+            if(drawerOverlay) drawerOverlay.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function openFullLetterView() {
+            if(fullLetterOverlay) fullLetterOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            if(letterViewContainer) {
+                letterViewContainer.classList.remove('scale-95');
+                letterViewContainer.classList.add('scale-100');
+            }
+        }
+
+        function closeFullLetterView() {
+            if(fullLetterOverlay) fullLetterOverlay.classList.add('opacity-0', 'pointer-events-none');
+            if(letterViewContainer) {
+                letterViewContainer.classList.remove('scale-100');
+                letterViewContainer.classList.add('scale-95');
+            }
+        }
+
+        /* NIKI - Tsunami Spotify Embed Player */
+        // Playback is handled directly by Spotify's official embedded player.
+        // The embed stays in the page DOM, so opening the letter does not unload it.
+
+        // Copy Letter to Clipboard
+        if (copyLetterBtn) {
+            copyLetterBtn.addEventListener('click', () => {
+                const text = document.getElementById('full-letter-body').innerText;
+                const temp = document.createElement('textarea');
+                temp.value = text;
+                document.body.appendChild(temp);
+                temp.select();
+                document.execCommand('copy');
+                document.body.removeChild(temp);
+
+                copyLetterBtn.innerHTML = '<i class="fa-solid fa-check text-green-600"></i>';
+                setTimeout(() => {
+                    copyLetterBtn.innerHTML = '<i class="fa-solid fa-copy"></i>';
+                }, 2000);
+            });
+        }
+
+        // Attach Event Listeners safely
+        if (openDrawerBtn) openDrawerBtn.addEventListener('click', openDrawer);
+        if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeDrawer);
+        if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+
+        if (openFullLetterBtn) {
+            openFullLetterBtn.addEventListener('click', () => {
+                closeDrawer();
+                openFullLetterView();
+            });
+        }
+
+        if (closeLetterBtn) closeLetterBtn.addEventListener('click', closeFullLetterView);
+        if (closeModalBtn) closeModalBtn.addEventListener('click', closeHeartModal);
+
+        /* Sunflower Sparkle Effect */
+        const waterFlowerBtn = document.getElementById('water-flower-btn');
+        const flowerInteractive = document.getElementById('flower-interactive');
+
+        function triggerSparkles() {
+            if(!flowerInteractive) return;
+            const rect = flowerInteractive.getBoundingClientRect();
+            for(let i = 0; i < 6; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'fixed text-amber-400 pointer-events-none z-50 text-xs animate-ping';
+                spark.innerHTML = '✨';
+                spark.style.left = `${rect.left + 15 + Math.random() * 50}px`;
+                spark.style.top = `${rect.top + 15 + Math.random() * 50}px`;
+                document.body.appendChild(spark);
+                setTimeout(() => spark.remove(), 800);
+            }
+        }
+
+        if (waterFlowerBtn) {
+            waterFlowerBtn.addEventListener('click', () => {
+                triggerSparkles();
+                waterFlowerBtn.innerHTML = '<i class="fa-solid fa-check text-green-500"></i> Warmth Sent!';
+                setTimeout(() => {
+                    waterFlowerBtn.innerHTML = '<i class="fa-solid fa-sparkles text-amber-500"></i> Send Warmth';
+                }, 2000);
+            });
+        }
+
+        if (flowerInteractive) {
+            flowerInteractive.addEventListener('click', triggerSparkles);
+        }
+
+        window.onload = function() {
+            renderUncrowdedHearts();
+            window.addEventListener('resize', renderUncrowdedHearts);
+        };
+    </script>
+</body>
+</html>
